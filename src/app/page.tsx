@@ -4,8 +4,11 @@ import { SetStateAction, useState } from "react";
 
 export default function Home() {
   const [data, setScanFileId] = useState("No result");
+  const [selected, setSelected] = useState("environment");
 
-  const handleScan = async (scanData: { rawValue: SetStateAction<string> }[]) => {
+  const handleScan = async (
+    scanData: { rawValue: SetStateAction<string> }[]
+  ) => {
     console.log(scanData, "scanData");
     if (scanData) {
       setScanFileId(scanData[0]?.rawValue);
@@ -16,7 +19,9 @@ export default function Home() {
     <div className="h-full w-full">
       <Scanner
         onScan={handleScan}
-       
+        constraints={{
+          facingMode: selected,
+        }}
         components={{
           audio: true,
           onOff: true,
@@ -27,6 +32,17 @@ export default function Home() {
         // paused={true}
       />
       <div>{data}</div>
+      <button
+        onClick={() => {
+          if (selected === "environment") {
+            setSelected("user");
+          } else {
+            setSelected("environment");
+          }
+        }}
+      >
+        switch camera{" "}
+      </button>
     </div>
   );
 }
