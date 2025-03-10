@@ -1,11 +1,11 @@
 "use client";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 export default function Home() {
   const [data, setScanFileId] = useState("No result");
 
-  const handleScan = async (scanData: any) => {
+  const handleScan = async (scanData: { rawValue: SetStateAction<string> }[]) => {
     console.log(scanData, "scanData");
     if (scanData) {
       setScanFileId(scanData[0]?.rawValue);
@@ -16,9 +16,7 @@ export default function Home() {
     <div className="h-full w-full">
       <Scanner
         onScan={handleScan}
-        onError={(error: any) => {
-          alert(error?.message);
-        }}
+       
         components={{
           audio: true,
           onOff: true,
@@ -28,6 +26,7 @@ export default function Home() {
         }}
         // paused={true}
       />
+      <div>{data}</div>
     </div>
   );
 }
